@@ -98,160 +98,13 @@
   }
 
   .emoji span {
+    display: block;
     font-size: 1.4rem;
     line-height: 1.8rem;
     color: black;
-    display: block;
     font-family: 'Brush Script MT', 'Segoe Script', 'Comic Sans MS', cursive;
     font-style: italic;
     text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
-  }
-
-  /* Realistic Cake Styles */
-  .candle-container {
-    margin: 30px 0;
-    display: none;
-    position: relative;
-  }
-
-  .cake-main {
-    display: inline-block;
-    position: relative;
-  }
-
-  .realistic-cake {
-    width: 200px;
-    height: 180px;
-    position: relative;
-    margin: 0 auto;
-  }
-
-  .cake-layer {
-    width: 180px;
-    height: 60px;
-    background: linear-gradient(to bottom, #ffb3d9, #ff85c1);
-    border-radius: 10px;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  }
-
-  .cake-layer-1 {
-    bottom: 0;
-    width: 200px;
-    background: linear-gradient(to bottom, #ffd4e5, #ffb3d9);
-  }
-
-  .cake-layer-2 {
-    bottom: 55px;
-    width: 180px;
-  }
-
-  .cake-layer-3 {
-    bottom: 110px;
-    width: 160px;
-    background: linear-gradient(to bottom, #ff85c1, #ff5ca8);
-  }
-
-  .cake-frosting {
-    position: absolute;
-    width: 100%;
-    height: 8px;
-    background: white;
-    top: -4px;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(255,255,255,0.5);
-  }
-
-  .cake-decoration {
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    background: #fff;
-    border-radius: 50%;
-    box-shadow: 0 0 5px rgba(255,255,255,0.8);
-  }
-
-  .cake-decoration:nth-child(2) { left: 20%; top: 50%; background: #ffed4e; }
-  .cake-decoration:nth-child(3) { left: 40%; top: 50%; background: #ff6b9d; }
-  .cake-decoration:nth-child(4) { left: 60%; top: 50%; background: #a8e6ff; }
-  .cake-decoration:nth-child(5) { left: 80%; top: 50%; background: #c9f0c9; }
-
-  /* Candle Styles */
-  .candle {
-    position: absolute;
-    top: -60px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-  }
-
-  .candle-stick {
-    width: 12px;
-    height: 40px;
-    background: linear-gradient(to right, #ff6b9d, #ffa3c7);
-    border-radius: 3px;
-    margin: 0 auto;
-    box-shadow: inset -2px 0 3px rgba(0,0,0,0.2);
-    position: relative;
-  }
-
-  .candle-wick {
-    width: 2px;
-    height: 8px;
-    background: #333;
-    position: absolute;
-    top: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  .flame {
-    position: absolute;
-    top: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 15px;
-    height: 25px;
-    background: linear-gradient(to top, #ff6b00, #ffed4e, #ffffff);
-    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-    animation: flicker 0.3s infinite alternate;
-    box-shadow: 0 0 20px #ff6b00, 0 0 40px #ffed4e, 0 0 60px rgba(255, 237, 78, 0.4);
-    z-index: 11;
-  }
-
-  @keyframes flicker {
-    0% {
-      transform: translateX(-50%) scale(1) translateY(0);
-      opacity: 1;
-      box-shadow: 0 0 20px #ff6b00, 0 0 40px #ffed4e, 0 0 60px rgba(255, 237, 78, 0.4);
-    }
-    50% {
-      transform: translateX(-50%) scale(1.05) translateY(-2px);
-      opacity: 0.9;
-      box-shadow: 0 0 25px #ff6b00, 0 0 50px #ffed4e, 0 0 70px rgba(255, 237, 78, 0.5);
-    }
-    100% {
-      transform: translateX(-50%) scale(0.95) translateY(2px);
-      opacity: 1;
-      box-shadow: 0 0 20px #ff6b00, 0 0 40px #ffed4e, 0 0 60px rgba(255, 237, 78, 0.4);
-    }
-  }
-
-  @keyframes bounce {
-    0%, 100% {
-      transform: translateY(0) scale(1);
-    }
-    25% {
-      transform: translateY(-15px) scale(1.05);
-    }
-    50% {
-      transform: translateY(-8px) scale(1.02);
-    }
-    75% {
-      transform: translateY(-12px) scale(1.04);
-    }
   }
 
   /* Sparkle Animation */
@@ -261,22 +114,10 @@
   }
 
   @keyframes sparkle {
-    0%, 100% {
-      transform: scale(1) rotate(0deg);
-      opacity: 1;
-    }
-    25% {
-      transform: scale(1.3) rotate(90deg);
-      opacity: 0.8;
-    }
-    50% {
-      transform: scale(0.8) rotate(180deg);
-      opacity: 1;
-    }
-    75% {
-      transform: scale(1.2) rotate(270deg);
-      opacity: 0.9;
-    }
+    0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    25% { transform: scale(1.3) rotate(90deg); opacity: 0.8; }
+    50% { transform: scale(0.8) rotate(180deg); opacity: 1; }
+    75% { transform: scale(1.2) rotate(270deg); opacity: 0.9; }
   }
 
   /* Heart Animation */
@@ -286,15 +127,9 @@
   }
 
   @keyframes heartbeat {
-    0%, 100% {
-      transform: scale(1);
-    }
-    10%, 30% {
-      transform: scale(1.3);
-    }
-    20%, 40% {
-      transform: scale(1);
-    }
+    0%, 100% { transform: scale(1); }
+    10%, 30% { transform: scale(1.3); }
+    20%, 40% { transform: scale(1); }
   }
 
   /* Confetti canvas */
@@ -313,7 +148,6 @@
     ul li { font-size: calc(1.125rem * var(--smaller)); }
     ul li span { font-size: calc(0.8rem * var(--smaller)); }
     .emoji span { font-size: 0.85rem; }
-    .realistic-cake { transform: scale(0.8); }
   }
 </style>
 </head>
@@ -338,45 +172,6 @@
   </div>
 
   <div id="content" class="emoji">
-    <div class="candle-container">
-      <div class="cake-main">
-        <div class="realistic-cake">
-          <div class="candle">
-            <div class="flame"></div>
-            <div class="candle-wick"></div>
-            <div class="candle-stick"></div>
-          </div>
-          
-          <div class="cake-layer cake-layer-3">
-            <div class="cake-frosting"></div>
-            <div class="cake-decoration"></div>
-            <div class="cake-decoration"></div>
-            <div class="cake-decoration"></div>
-            <div class="cake-decoration"></div>
-            <div class="cake-decoration"></div>
-          </div>
-          
-          <div class="cake-layer cake-layer-2">
-            <div class="cake-frosting"></div>
-            <div class="cake-decoration"></div>
-            <div class="cake-decoration"></div>
-            <div class="cake-decoration"></div>
-            <div class="cake-decoration"></div>
-            <div class="cake-decoration"></div>
-          </div>
-          
-          <div class="cake-layer cake-layer-1">
-            <div class="cake-frosting"></div>
-            <div class="cake-decoration"></div>
-            <div class="cake-decoration"></div>
-            <div class="cake-decoration"></div>
-            <div class="cake-decoration"></div>
-            <div class="cake-decoration"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
     <span>
       Happy Birthday! <span class="sparkle">✨</span><br><br>
       May God bless you with endless joy, happiness, and everything you've been praying for.<br><br>
@@ -389,7 +184,6 @@
 </div>
 
 <script>
-
 (function () {
   const second = 1000,
         minute = second * 60,
@@ -440,8 +234,6 @@
     }
   }, 1000);
 })();
-
-
 
 /* =======================
    CONFETTI SCRIPT
