@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Birthday Countdown</title>
+<style>
+  :root {
+    --smaller: .75;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html, body {
+    height: 100%;
+  }
+
+  body {
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f5e9d5, #dfd7c8, #f3e2c5);
+    display: flex;
+    font-family: "Segoe UI", sans-serif;
+    overflow: hidden;
+    animation: fadeIn 1.5s ease-in-out;
+    transition: background 1.5s ease;
+  }
+
+  body.birthday-mode {
+    background: linear-gradient(135deg, #ffb6d9, #ffc8dd, #ffafcc, #ffd7e8);
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .container {
+    color: #333;
+    text-align: center;
+    animation: slideUp 1.5s ease;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(40px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  h1 {
+    font-weight: bold;
+    letter-spacing: .125rem;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    animation: glow 2s infinite alternate;
+  }
+
+  h1.birthday-headline {
+    font-family: 'Brush Script MT', 'Segoe Script', 'Comic Sans MS', cursive;
+    font-style: italic;
+    text-transform: none;
+    font-size: 2.5rem;
+    letter-spacing: 0;
+  }
+
+  @keyframes glow {
+    from { text-shadow: 0 0 5px #ffb347; }
+    to { text-shadow: 0 0 15px #ff8c00; }
+  }
+
+  ul li {
+    display: inline-block;
+    font-size: 1.3rem;
+    list-style-type: none;
+    padding: 1em;
+    text-transform: uppercase;
+    animation: pop 0.8s ease;
+  }
+
+  @keyframes pop {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  ul li span {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: bold;
+  }
+
+  .emoji {
+    display: none;
+    padding: 1rem;
+    animation: fadeIn 1.2s ease-in-out;
+  }
+
+  .emoji span {
+    font-size: 1.4rem;
+    line-height: 1.8rem;
+    color: black;
+    display: block;
+    font-family: 'Brush Script MT', 'Segoe Script', 'Comic Sans MS', cursive;
+    font-style: italic;
+    text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+  }
+
+  /* Realistic Cake Styles */
+  .candle-container {
+    margin: 30px 0;
+    display: none;
+    position: relative;
+  }
+
+  .cake-main {
+    display: inline-block;
+    position: relative;
+  }
+
+  .realistic-cake {
+    width: 200px;
+    height: 180px;
+    position: relative;
+    margin: 0 auto;
+  }
+
+  .cake-layer {
+    width: 180px;
+    height: 60px;
+    background: linear-gradient(to bottom, #ffb3d9, #ff85c1);
+    border-radius: 10px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+
+  .cake-layer-1 {
+    bottom: 0;
+    width: 200px;
+    background: linear-gradient(to bottom, #ffd4e5, #ffb3d9);
+  }
+
+  .cake-layer-2 {
+    bottom: 55px;
+    width: 180px;
+  }
+
+  .cake-layer-3 {
+    bottom: 110px;
+    width: 160px;
+    background: linear-gradient(to bottom, #ff85c1, #ff5ca8);
+  }
+
+  .cake-frosting {
+    position: absolute;
+    width: 100%;
+    height: 8px;
+    background: white;
+    top: -4px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(255,255,255,0.5);
+  }
+
+  .cake-decoration {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(255,255,255,0.8);
+  }
+
+  .cake-decoration:nth-child(2) { left: 20%; top: 50%; background: #ffed4e; }
+  .cake-decoration:nth-child(3) { left: 40%; top: 50%; background: #ff6b9d; }
+  .cake-decoration:nth-child(4) { left: 60%; top: 50%; background: #a8e6ff; }
+  .cake-decoration:nth-child(5) { left: 80%; top: 50%; background: #c9f0c9; }
+
+  /* Candle Styles */
+  .candle {
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+  }
+
+  .candle-stick {
+    width: 12px;
+    height: 40px;
+    background: linear-gradient(to right, #ff6b9d, #ffa3c7);
+    border-radius: 3px;
+    margin: 0 auto;
+    box-shadow: inset -2px 0 3px rgba(0,0,0,0.2);
+    position: relative;
+  }
+
+  .candle-wick {
+    width: 2px;
+    height: 8px;
+    background: #333;
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .flame {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 15px;
+    height: 25px;
+    background: linear-gradient(to top, #ff6b00, #ffed4e, #ffffff);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    animation: flicker 0.3s infinite alternate;
+    box-shadow: 0 0 20px #ff6b00, 0 0 40px #ffed4e, 0 0 60px rgba(255, 237, 78, 0.4);
+    z-index: 11;
+  }
+
+  @keyframes flicker {
+    0% {
+      transform: translateX(-50%) scale(1) translateY(0);
+      opacity: 1;
+      box-shadow: 0 0 20px #ff6b00, 0 0 40px #ffed4e, 0 0 60px rgba(255, 237, 78, 0.4);
+    }
+    50% {
+      transform: translateX(-50%) scale(1.05) translateY(-2px);
+      opacity: 0.9;
+      box-shadow: 0 0 25px #ff6b00, 0 0 50px #ffed4e, 0 0 70px rgba(255, 237, 78, 0.5);
+    }
+    100% {
+      transform: translateX(-50%) scale(0.95) translateY(2px);
+      opacity: 1;
+      box-shadow: 0 0 20px #ff6b00, 0 0 40px #ffed4e, 0 0 60px rgba(255, 237, 78, 0.4);
+    }
+  }
+
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(0) scale(1);
+    }
+    25% {
+      transform: translateY(-15px) scale(1.05);
+    }
+    50% {
+      transform: translateY(-8px) scale(1.02);
+    }
+    75% {
+      transform: translateY(-12px) scale(1.04);
+    }
+  }
+
+  /* Sparkle Animation */
+  .sparkle {
+    display: inline-block;
+    animation: sparkle 1s infinite;
+  }
+
+  @keyframes sparkle {
+    0%, 100% {
+      transform: scale(1) rotate(0deg);
+      opacity: 1;
+    }
+    25% {
+      transform: scale(1.3) rotate(90deg);
+      opacity: 0.8;
+    }
+    50% {
+      transform: scale(0.8) rotate(180deg);
+      opacity: 1;
+    }
+    75% {
+      transform: scale(1.2) rotate(270deg);
+      opacity: 0.9;
+    }
+  }
+
+  /* Heart Animation */
+  .heart-emoji {
+    display: inline-block;
+    animation: heartbeat 1.2s infinite;
+  }
+
+  @keyframes heartbeat {
+    0%, 100% {
+      transform: scale(1);
+    }
+    10%, 30% {
+      transform: scale(1.3);
+    }
+    20%, 40% {
+      transform: scale(1);
+    }
+  }
+
+  /* Confetti canvas */
+  #confetti {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    display: none;
+  }
+
+  @media all and (max-width: 768px) {
+    h1 { font-size: calc(1.5rem * var(--smaller)); }
+    ul li { font-size: calc(1.125rem * var(--smaller)); }
+    ul li span { font-size: calc(0.8rem * var(--smaller)); }
+    .emoji span { font-size: 0.85rem; }
+    .realistic-cake { transform: scale(0.8); }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="confetti"></canvas>
+
+<audio id="birthdayMusic" preload="auto">
+  <source src="https://github.com/krsnaaaaaa/songs/raw/main/hbd.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container">
+  <h1 id="headline">Countdown to UR birthday</h1>
+
+  <div id="countdown">
+    <ul>
+      <li><span id="days"></span>Days</li>
+      <li><span id="hours"></span>Hours</li>
+      <li><span id="minutes"></span>Minutes</li>
+      <li><span id="seconds"></span>Seconds</li>
+    </ul>
+  </div>
+
+  <div id="content" class="emoji">
+    <div class="candle-container">
+      <div class="cake-main">
+        <div class="realistic-cake">
+          <div class="candle">
+            <div class="flame"></div>
+            <div class="candle-wick"></div>
+            <div class="candle-stick"></div>
+          </div>
+          
+          <div class="cake-layer cake-layer-3">
+            <div class="cake-frosting"></div>
+            <div class="cake-decoration"></div>
+            <div class="cake-decoration"></div>
+            <div class="cake-decoration"></div>
+            <div class="cake-decoration"></div>
+            <div class="cake-decoration"></div>
+          </div>
+          
+          <div class="cake-layer cake-layer-2">
+            <div class="cake-frosting"></div>
+            <div class="cake-decoration"></div>
+            <div class="cake-decoration"></div>
+            <div class="cake-decoration"></div>
+            <div class="cake-decoration"></div>
+            <div class="cake-decoration"></div>
+          </div>
+          
+          <div class="cake-layer cake-layer-1">
+            <div class="cake-frosting"></div>
+            <div class="cake-decoration"></div>
+            <div class="cake-decoration"></div>
+            <div class="cake-decoration"></div>
+            <div class="cake-decoration"></div>
+            <div class="cake-decoration"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <span>
+      Happy Birthday! <span class="sparkle">✨</span><br><br>
+      May God bless you with endless joy, happiness, and everything you've been praying for.<br><br>
+      How stupid am I? Aru kura ma dhyan thiyo mero, and I totally forgot the surprise rule. 😄<br>
+      And sorry for the gift delay  India ma blast ko karan border strict bhayo, so 1 2 din paxi receive garnu, good girl banera. <span class="heart-emoji">💗</span><br><br>
+      Ani sorry for this morning too. Mero mind pura messed up thiyo  code ma problem, solution nai vetiena. Tesaile tone halka huss-huss jasto aayo. Not lying.<br><br>
+      Once again… Happy Birthday! <span class="sparkle">✨</span> Wishing you a beautiful year ahead. <span class="heart-emoji">💖</span>
+    </span>
+  </div>
+</div>
+
+<script>
+
+(function () {
+  const second = 1000,
+        minute = second * 60,
+        hour   = minute * 60,
+        day    = hour * 24;
+
+  // Get today's date and set birthday
+  let today = new Date(),
+      dd = String(today.getDate()).padStart(2, "0"),
+      mm = String(today.getMonth() + 1).padStart(2, "0"),
+      yyyy = today.getFullYear(),
+      nextYear = yyyy + 1,
+      dayMonth = "11/15/", // Change to your birthday MM/DD
+      birthday = dayMonth + yyyy;
+
+  today = mm + "/" + dd + "/" + yyyy;
+  if (today > birthday) {
+    birthday = dayMonth + nextYear;
+  }
+
+  const countDown = new Date(birthday).getTime();
+
+  const x = setInterval(function () {
+    const now = new Date().getTime(),
+          distance = countDown - now;
+
+    document.getElementById("days").innerText = Math.floor(distance / day);
+    document.getElementById("hours").innerText = Math.floor((distance % day) / hour);
+    document.getElementById("minutes").innerText = Math.floor((distance % hour) / minute);
+    document.getElementById("seconds").innerText = Math.floor((distance % minute) / second);
+
+    if (distance < 0) {
+      const headline = document.getElementById("headline");
+      headline.innerText = "Happy Birthday Princess!! 👸";
+      headline.classList.add('birthday-headline');
+
+      document.getElementById("countdown").style.display = "none";
+      document.getElementById("content").style.display = "block";
+      document.querySelector(".candle-container").style.display = "block";
+      document.body.classList.add('birthday-mode');
+
+      // Play birthday music
+      const music = document.getElementById("birthdayMusic");
+      music.play().catch(err => console.log("Audio playback failed:", err));
+
+      clearInterval(x);
+      startConfetti();
+    }
+  }, 1000);
+})();
+
+
+
+/* =======================
+   CONFETTI SCRIPT
+======================= */
+function startConfetti() {
+  const canvas = document.getElementById('confetti');
+  const ctx = canvas.getContext('2d');
+  canvas.style.display = 'block';
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const pieces = [];
+  const numPieces = 150;
+  const shapes = ['circle', 'square', 'triangle', 'heart', 'star'];
+
+  for (let i = 0; i < numPieces; i++) {
+    pieces.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height - canvas.height,
+      size: Math.random() * 15 + 5,
+      speed: Math.random() * 3 + 2,
+      color: `hsl(${Math.random() * 360}, 100%, 70%)`,
+      shape: shapes[Math.floor(Math.random() * shapes.length)],
+      rotation: Math.random() * 360,
+      rotationSpeed: Math.random() * 5 - 2.5
+    });
+  }
+
+  function drawShape(p) {
+    ctx.save();
+    ctx.translate(p.x + p.size / 2, p.y + p.size / 2);
+    ctx.rotate((p.rotation * Math.PI) / 180);
+    ctx.fillStyle = p.color;
+
+    switch (p.shape) {
+      case 'circle':
+        ctx.beginPath();
+        ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+        ctx.fill();
+        break;
+      case 'square':
+        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+        break;
+      case 'triangle':
+        ctx.beginPath();
+        ctx.moveTo(0, -p.size / 2);
+        ctx.lineTo(p.size / 2, p.size / 2);
+        ctx.lineTo(-p.size / 2, p.size / 2);
+        ctx.closePath();
+        ctx.fill();
+        break;
+      case 'heart':
+        const s = p.size / 20;
+        ctx.beginPath();
+        ctx.moveTo(0, 5 * s);
+        ctx.bezierCurveTo(-5 * s, 0, -10 * s, -5 * s, 0, -10 * s);
+        ctx.bezierCurveTo(10 * s, -5 * s, 5 * s, 0, 0, 5 * s);
+        ctx.fill();
+        break;
+      case 'star':
+        ctx.beginPath();
+        for (let i = 0; i < 5; i++) {
+          const angle = (i * 4 * Math.PI) / 5 - Math.PI / 2;
+          const r = i % 2 === 0 ? p.size / 2 : p.size / 4;
+          const x = r * Math.cos(angle);
+          const y = r * Math.sin(angle);
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.closePath();
+        ctx.fill();
+        break;
+    }
+
+    ctx.restore();
+  }
+
+  function update() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    pieces.forEach(p => {
+      p.y += p.speed;
+      p.rotation += p.rotationSpeed;
+      if (p.y > canvas.height) {
+        p.y = -20;
+        p.x = Math.random() * canvas.width;
+      }
+
+      drawShape(p);
+    });
+
+    requestAnimationFrame(update);
+  }
+
+  update();
+}
+</script>
+
+</body>
+</html>
